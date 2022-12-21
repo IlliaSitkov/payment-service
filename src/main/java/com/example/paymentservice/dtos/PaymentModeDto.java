@@ -1,10 +1,14 @@
-package com.example.paymentservice.dto;
+package com.example.paymentservice.dtos;
 
 import com.example.paymentservice.utils.Mode;
 import com.example.paymentservice.utils.Period;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
+@AllArgsConstructor
 public class PaymentModeDto {
 
     private Long tariffId;
@@ -14,6 +18,5 @@ public class PaymentModeDto {
     private Mode mode;
 
     private String cardNumber;
-
 
 }

@@ -1,8 +1,8 @@
 package com.example.paymentservice.exceptions;
 
-public class InvalidUserException extends Exception {
+public class InvalidTariffException extends Exception {
 
-    public InvalidUserException(String message) {
-        super("Invalid user: "+message);
+    public InvalidTariffException(String message) {
+        super("Invalid tariff: "+message);
     }
 }

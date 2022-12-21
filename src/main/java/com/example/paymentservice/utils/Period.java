@@ -1,4 +1,4 @@
-package com.example.paymentservice.model;
+package com.example.paymentservice.utils;
 
 public enum Period {
 

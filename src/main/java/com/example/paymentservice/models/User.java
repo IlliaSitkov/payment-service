@@ -1,11 +1,13 @@
-package com.example.paymentservice.model;
+package com.example.paymentservice.models;
 
 import com.example.paymentservice.utils.Mode;
 import com.example.paymentservice.utils.Period;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class User {
 
@@ -13,12 +15,14 @@ public class User {
 
     private String name;
 
-    private Long tariffId;
+    private Tariff tariff;
 
     private Period period;
 
     private Mode mode;
 
     private String cardNumber;
+
+    private boolean isBanned;
 
 }
