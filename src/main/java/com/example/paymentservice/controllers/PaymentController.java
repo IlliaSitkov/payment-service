@@ -18,7 +18,7 @@ public class PaymentController {
     }
 
     @PutMapping("/bills/{id}")
-    public Bill createBill(@PathVariable Long id) throws Exception {
+    public Bill payBill(@PathVariable Long id) throws Exception {
         return paymentHandler.performPayment(id);
     }
 

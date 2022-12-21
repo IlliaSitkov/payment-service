@@ -13,5 +13,6 @@ public class PaymentModeValidatorImpl implements PaymentModeValidator {
         if (paymentModeDto.getMode() == Mode.AUTOMATIC && paymentModeDto.getCardNumber() == null) {
             throw new InvalidPaymentModeException("Card number is not specified");
         }
+        // perform other checks for values of the paymentModeDto and throw exception in case of inappropriate values
     }
 }
