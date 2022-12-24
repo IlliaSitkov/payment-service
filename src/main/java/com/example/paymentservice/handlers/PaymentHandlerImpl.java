@@ -15,10 +15,13 @@ public class PaymentHandlerImpl implements PaymentHandler {
 
     private final PaymentService paymentService;
 
-    public PaymentHandlerImpl(BillRepository billRepository, UserValidator userValidator, PaymentService paymentService) {
+    private final UserHandler userHandler;
+
+    public PaymentHandlerImpl(BillRepository billRepository, UserValidator userValidator, PaymentService paymentService, UserHandler userHandler) {
         this.billRepository = billRepository;
         this.userValidator = userValidator;
         this.paymentService = paymentService;
+        this.userHandler = userHandler;
     }
 
     @Override
@@ -26,7 +29,12 @@ public class PaymentHandlerImpl implements PaymentHandler {
         Bill bill = billRepository.getById(billId);
         userValidator.validateUser(bill.getUser());
         boolean paymentSuccessful = paymentService.pay(bill.getUser().getCardNumber(), bill.getCost());
-        bill.setPaid(paymentSuccessful);
-        return billRepository.updateBill(bill);
+        if (paymentSuccessful) {
+            bill.setPaid(true);
+            return billRepository.updateBill(bill);
+        } else {
+            userHandler.attemptToBanUser(bill.getUser().getId());
+            return bill;
+        }
     }
 }

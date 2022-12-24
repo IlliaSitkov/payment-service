@@ -11,5 +11,5 @@ public interface BillRepository {
 
     Bill getById(long id) throws InvalidBillException;
 
-    int getUnpaidBillCount(long userId);
+    int getUnpaidBillCountForPeriod(long userId, int periodDays);
 }

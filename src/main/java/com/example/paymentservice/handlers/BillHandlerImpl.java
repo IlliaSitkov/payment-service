@@ -26,15 +26,15 @@ public class BillHandlerImpl implements BillHandler {
         this.paymentHandler = paymentHandler;
     }
 
-    public Bill processBillRequest(long userId) throws Exception {
+    public Bill processBillRequestForUser(long userId) throws Exception {
         User user = userRepository.getUserById(userId);
         userValidator.validateUser(user);
         Bill bill = new Bill(user, false, user.getTariff().getCost());
-        billRepository.saveBill(bill);
+        Bill savedBill = billRepository.saveBill(bill);
         if (user.getMode() == Mode.AUTOMATIC) {
-            return paymentHandler.performPayment(bill.getId());
+            return paymentHandler.performPayment(savedBill.getId());
         }
-        return bill;
+        return savedBill;
     }
 
 

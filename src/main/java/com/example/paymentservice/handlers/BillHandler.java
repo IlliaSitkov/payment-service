@@ -4,7 +4,7 @@ import com.example.paymentservice.models.Bill;
 
 public interface BillHandler {
 
-    Bill processBillRequest(long userId) throws Exception;
+    Bill processBillRequestForUser(long userId) throws Exception;
 
 
 

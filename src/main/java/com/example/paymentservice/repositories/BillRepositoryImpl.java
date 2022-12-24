@@ -33,8 +33,8 @@ public class BillRepositoryImpl implements BillRepository {
     }
 
     @Override
-    public int getUnpaidBillCount(long userId) {
-        // count unpaid bills of the user with the userId specified
+    public int getUnpaidBillCountForPeriod(long userId, int periodDays) {
+        // count unpaid bills of the user with the userId specified during the last periodDays
         return 0;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.paymentservice.handlers;
 
+import com.example.paymentservice.config.ApplicationProperties;
 import com.example.paymentservice.dtos.PaymentModeDto;
 import com.example.paymentservice.models.Tariff;
 import com.example.paymentservice.models.User;
@@ -23,12 +24,15 @@ public class UserHandlerImpl implements UserHandler {
 
     private final BillRepository billRepository;
 
-    public UserHandlerImpl(PaymentModeValidator paymentModeValidator, UserValidator userValidator, UserRepository userRepository, TariffRepository tariffRepository, BillRepository billRepository) {
+    private final ApplicationProperties applicationProperties;
+
+    public UserHandlerImpl(PaymentModeValidator paymentModeValidator, UserValidator userValidator, UserRepository userRepository, TariffRepository tariffRepository, BillRepository billRepository, ApplicationProperties applicationProperties) {
         this.paymentModeValidator = paymentModeValidator;
         this.userValidator = userValidator;
         this.userRepository = userRepository;
         this.tariffRepository = tariffRepository;
         this.billRepository = billRepository;
+        this.applicationProperties = applicationProperties;
     }
 
     @Override
@@ -44,13 +48,19 @@ public class UserHandlerImpl implements UserHandler {
         userRepository.updateUser(user);
     }
 
+    private boolean userIsToBeBanned(long userId) {
+        return billRepository.getUnpaidBillCountForPeriod(userId, applicationProperties.getPeriodDays()) > applicationProperties.getUnpaidBillCountAllowed();
+    }
+
     @Override
-    public void banUser(long userId, int unpaidBillCountAllowed) throws Exception {
+    public boolean attemptToBanUser(long userId) throws Exception {
         User user = userRepository.getUserById(userId);
         userValidator.validateUser(user);
-        if (billRepository.getUnpaidBillCount(userId) > unpaidBillCountAllowed) {
+        if (userIsToBeBanned(userId)) {
             user.setBanned(true);
             userRepository.updateUser(user);
+            return true;
         }
+        return false;
     }
 }

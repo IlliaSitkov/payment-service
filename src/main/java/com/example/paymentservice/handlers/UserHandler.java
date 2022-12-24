@@ -6,5 +6,5 @@ public interface UserHandler {
 
     void setPaymentMode(long userId, PaymentModeDto paymentModeDto) throws Exception;
 
-    void banUser(long userId, int unpaidBillCountAllowed) throws Exception;
+    boolean attemptToBanUser(long userId) throws Exception;
 }

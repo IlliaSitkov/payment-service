@@ -25,15 +25,15 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> banUser(@PathVariable Long id, @RequestParam int unpaidBillCountMax) throws Exception {
-        userHandler.banUser(id, unpaidBillCountMax);
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> attemptToBanUser(@PathVariable Long id) throws Exception {
+        boolean userBanned = userHandler.attemptToBanUser(id);
+        return ResponseEntity.ok().body(userBanned);
     }
 
     @PostMapping("/{id}/bills")
     public Bill createBill(@PathVariable Long id) throws Exception {
-        return billHandler.processBillRequest(id);
+        return billHandler.processBillRequestForUser(id);
     }
 
 }
